@@ -2,18 +2,19 @@
 
 namespace PerpetuumSoft.Knockout
 {
-  public class KnockoutIfContext<TModel> : KnockoutCommonRegionContext<TModel>
-  {
-    public KnockoutIfContext(ViewContext viewContext, string expression) : base(viewContext, expression)
+    public class KnockoutIfContext<TModel> : KnockoutCommonRegionContext<TModel>
     {
-    }
+        public KnockoutIfContext(ViewContext viewContext, string expression, string ViewModelName = "viewModel", string JQSelector = null)
+            : base(viewContext, expression, ViewModelName, JQSelector)
+        {
+        }
 
-    protected override string Keyword
-    {
-      get
-      {
-        return "if";
-      }
+        protected override string Keyword
+        {
+            get
+            {
+                return "if";
+            }
+        }
     }
-  }
 }

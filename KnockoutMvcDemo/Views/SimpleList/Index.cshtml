@@ -1,7 +1,7 @@
 ﻿@using PerpetuumSoft.Knockout
 @model KnockoutMvcDemo.Models.SimpleListModel
 @{
-  var ko = Html.CreateKnockoutContext();
+    var ko = Html.CreateKnockoutContext();
 }
 @using (ko.Html.Form("AddItem", "SimpleList", null, new { id = "myform" }))
 {
@@ -11,7 +11,7 @@
   <p>Your items:</p>
   @ko.Html.ListBox(m => m.Items, new { width = 50, size = 7 })  
 }  
-<script type="text/javascript">      
+<script type="text/javascript">
     $('#myform').ajaxForm();
 </script> 
 
