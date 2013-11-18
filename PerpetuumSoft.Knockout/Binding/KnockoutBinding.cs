@@ -6,7 +6,6 @@ using System.Linq;
 using System.Text;
 using System.Linq.Expressions;
 using System.Web;
-using System.Web.Script.Serialization;
 using Newtonsoft.Json;
 
 namespace PerpetuumSoft.Knockout
