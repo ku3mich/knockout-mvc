@@ -1,5 +1,4 @@
 ﻿executeOnServer = function (model, url) {
-
     $.ajax({
         url: url,
         type: 'POST',

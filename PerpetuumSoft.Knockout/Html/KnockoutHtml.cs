@@ -400,23 +400,14 @@ namespace PerpetuumSoft.Knockout
             return tagBuilder;
         }
 
-        public KnockoutTagBuilder<TModel> Button(string caption, string actionName, string controllerName, object routeValues = null, object htmlAttributes = null)
-        {
-            var tagBuilder = new KnockoutTagBuilder<TModel>(Context, "button", InstanceNames, Aliases);
-            tagBuilder.ApplyAttributes(htmlAttributes);
-            tagBuilder.Click(actionName, controllerName, routeValues);
-            tagBuilder.SetInnerHtml(HttpUtility.HtmlEncode(caption));
-            return tagBuilder;
-        }
-
-        public KnockoutTagBuilder<TModel> ButtonConfirm(string caption, string actionName, string controllerName, string confirmQuestion, object routeValues = null, object htmlAttributes = null)
-        {
-            var tagBuilder = new KnockoutTagBuilder<TModel>(Context, "button", InstanceNames, Aliases);
-            tagBuilder.ApplyAttributes(htmlAttributes);
-            tagBuilder.ClickConfirm(actionName, controllerName, confirmQuestion, routeValues);
-            tagBuilder.SetInnerHtml(HttpUtility.HtmlEncode(caption));
-            return tagBuilder;
-        }
+        //public KnockoutTagBuilder<TModel> ButtonConfirm(string caption, string url, object htmlAttributes = null)
+        //{
+        //    var tagBuilder = new KnockoutTagBuilder<TModel>(Context, "button", InstanceNames, Aliases);
+        //    tagBuilder.ApplyAttributes(htmlAttributes);
+        //    tagBuilder.ClickConfirm(url);
+        //    tagBuilder.SetInnerHtml(HttpUtility.HtmlEncode(caption));
+        //    return tagBuilder;
+        //}
 
         public KnockoutTagBuilder<TModel> Button(string caption, string JS, object htmlAttributes = null)
         {
@@ -427,20 +418,21 @@ namespace PerpetuumSoft.Knockout
             return tagBuilder;
         }
 
-        public KnockoutTagBuilder<TModel> ButtonConfirm(string caption, string JS, string confirmQuest, object htmlAttributes = null)
-        {
-            var tagBuilder = new KnockoutTagBuilder<TModel>(Context, "button", InstanceNames, Aliases);
-            tagBuilder.ApplyAttributes(htmlAttributes);
-            tagBuilder.ClickConfirm(JS, confirmQuest);
-            tagBuilder.SetInnerHtml(HttpUtility.HtmlEncode(caption));
-            return tagBuilder;
-        }
-        public KnockoutTagBuilder<TModel> HyperlinkButton(string caption, string actionName, string controllerName, object routeValues = null, object htmlAttributes = null)
+        //public KnockoutTagBuilder<TModel> ButtonConfirm(string caption, string JS, string confirmQuest, object htmlAttributes = null)
+        //{
+        //    var tagBuilder = new KnockoutTagBuilder<TModel>(Context, "button", InstanceNames, Aliases);
+        //    tagBuilder.ApplyAttributes(htmlAttributes);
+        //    tagBuilder.ClickConfirm(JS, confirmQuest);
+        //    tagBuilder.SetInnerHtml(HttpUtility.HtmlEncode(caption));
+        //    return tagBuilder;
+        //}
+
+        public KnockoutTagBuilder<TModel> HyperlinkButton(string caption, string url, object htmlAttributes = null)
         {
             var tagBuilder = new KnockoutTagBuilder<TModel>(Context, "a", InstanceNames, Aliases);
             tagBuilder.ApplyAttributes(htmlAttributes);
             tagBuilder.ApplyAttributes(new { href = "#" });
-            tagBuilder.Click(actionName, controllerName, routeValues);
+            tagBuilder.Click(url);
             tagBuilder.SetInnerHtml(HttpUtility.HtmlEncode(caption));
             return tagBuilder;
         }

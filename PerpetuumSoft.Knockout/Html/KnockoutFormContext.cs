@@ -35,7 +35,7 @@ namespace PerpetuumSoft.Knockout
         {
             var tagBuilder = new KnockoutTagBuilder<TModel>(context, "form", instanceNames, aliases);
             tagBuilder.ApplyAttributes(htmlAttributes);
-            tagBuilder.Submit(actionName, controllerName, routeValues);
+            tagBuilder.Submit(Url().Action(actionName, controllerName, routeValues));
             tagBuilder.TagRenderMode = TagRenderMode.StartTag;
             writer.WriteLine(tagBuilder.ToHtmlString());
         }

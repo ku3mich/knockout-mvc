@@ -296,9 +296,8 @@ namespace PerpetuumSoft.Knockout
         }
 
         //TODO: rewrite
-        public MvcHtmlString ServerAction(string actionName, string controllerName, object routeValues = null)
+        public MvcHtmlString ServerAction(string url)
         {
-            var url = Url().Action(actionName, controllerName, routeValues);
             string exec = string.Format(@"executeOnServer({0}, '{1}')", ViewModelName, url);
             exec = exec.Replace("%28%29", "()");
             if (exec.Contains("%24index()"))

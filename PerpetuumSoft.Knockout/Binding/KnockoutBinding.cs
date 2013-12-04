@@ -7,6 +7,7 @@ using System.Text;
 using System.Linq.Expressions;
 using System.Web;
 using Newtonsoft.Json;
+using PerpetuumSoft.Knockout.Utilities;
 
 namespace PerpetuumSoft.Knockout
 {
@@ -67,13 +68,13 @@ namespace PerpetuumSoft.Knockout
         }
 
         // Disable
-        public KnockoutBinding<TModel> Disable(Expression<Func<TModel, bool>> binding)
+        public KnockoutBinding<TModel> Disabled(Expression<Func<TModel, bool>> binding)
         {
             Items.Add(new KnockoutBindingItem<TModel, bool> { Name = "disable", Expression = binding });
             return this;
         }
 
-        public KnockoutBinding<TModel> Disable(Expression<Func<TModel, Expression<Func<bool>>>> binding)
+        public KnockoutBinding<TModel> Disabled(Expression<Func<TModel, Expression<Func<bool>>>> binding)
         {
             Items.Add(new KnockoutBindingItem<TModel, Expression<Func<bool>>> { Name = "disable", Expression = binding });
             return this;
@@ -237,23 +238,13 @@ namespace PerpetuumSoft.Knockout
             ComplexItem("attr").Add(new KnockoutBindingStringItem { Name = name, Value = value, NeedQuotes = needQuotes });
             return this;
         }
-        // *** Events ***
-        protected virtual KnockoutBinding<TModel> Event(string eventName, string actionName, string controllerName, object routeValues)
+        
+        protected virtual KnockoutBinding<TModel> Event(string eventName, string url)
         {
             var sb = new StringBuilder();
             sb.Append("function() {");
-            sb.Append(Context.ServerAction(actionName, controllerName, routeValues));
+            sb.Append(Context.ServerAction(url));
             sb.Append(";}");
-            Items.Add(new KnockoutBindingStringItem(eventName, sb.ToString(), false));
-            return this;
-        }
-
-        protected virtual KnockoutBinding<TModel> Event(string eventName, string actionName, string controllerName, string confirmQuestion, object routeValues)
-        {
-            var sb = new StringBuilder();
-            sb.Append("function() { ko_confirmDialog('" + confirmQuestion.Replace("'", "\\'" ) + "', function () {");
-            sb.Append(Context.ServerAction(actionName, controllerName, routeValues));
-            sb.Append(";} ); }");
             Items.Add(new KnockoutBindingStringItem(eventName, sb.ToString(), false));
             return this;
         }
@@ -265,7 +256,7 @@ namespace PerpetuumSoft.Knockout
             sb.Append(JS);
             sb.Append(";");
             if (stopPropagation)
-                sb.Append("ko_stopPropagation(ev);");
+                sb.Append("ev.stopPropagation();");
             sb.Append("}");
             Items.Add(new KnockoutBindingStringItem(eventName, sb.ToString(), false));
             return this;
@@ -280,41 +271,42 @@ namespace PerpetuumSoft.Knockout
             Items.Add(new KnockoutBindingStringItem(eventName, sb.ToString(), false));
             return this;
         }
-        public KnockoutBinding<TModel> Click(string actionName, string controllerName, object routeValues = null)
+
+        public KnockoutBinding<TModel> Click(string url)
         {
-            return Event("click", actionName, controllerName, routeValues);
+            return Event("click", url);
         }
 
-        public KnockoutBinding<TModel> ClickConfirm(string actionName, string controllerName, string confirmQuestion, object routeValues = null)
-        {
-            return Event("click", actionName, controllerName, confirmQuestion, routeValues);
-        }
+        //public KnockoutBinding<TModel> ClickConfirm(string url, string confirmQuestion, object routeValues = null)
+        //{
+        //    return Event("click", url, confirmQuestion, routeValues);
+        //}
 
-        public KnockoutBinding<TModel> ClickConfirm(string JS, string confirmQuestion)
-        {
-            return JSEvent("click", confirmQuestion, JS);
-        }
-        public KnockoutBinding<TModel> Submit(string actionName, string controllerName, object routeValues = null)
-        {
-            return Event("submit", actionName, controllerName, routeValues);
-        }
+        //public KnockoutBinding<TModel> ClickConfirm(string JS, string confirmQuestion)
+        //{
+        //    return JSEvent("click", confirmQuestion, JS);
+        //}
+        //public KnockoutBinding<TModel> Submit(string actionName, string controllerName, object routeValues = null)
+        //{
+        //    return Event("submit", actionName, controllerName, routeValues);
+        //}
 
-        public KnockoutBinding<TModel> Click(string JS)
+        public KnockoutBinding<TModel> ClickJs(string JS)
         {
             return JSEvent("click", JS);
         }
 
-        public KnockoutBinding<TModel> JSOtherEvent(string evt, string js)
-        {
-            var sb = new StringBuilder();
-            sb.Append("{ " + evt + ": function() {");
-            sb.Append(js);
-            sb.Append(";} }");
-            Items.Add(new KnockoutBindingStringItem("event", sb.ToString(), false));
-            return this;
-        }
+        //public KnockoutBinding<TModel> JSOtherEvent(string evt, string js)
+        //{
+        //    var sb = new StringBuilder();
+        //    sb.Append("{ " + evt + ": function() {");
+        //    sb.Append(js);
+        //    sb.Append(";} }");
+        //    Items.Add(new KnockoutBindingStringItem("event", sb.ToString(), false));
+        //    return this;
+        //}
 
-        public KnockoutBinding<TModel> JSOtherEventFunc(string evt, string jsfunc)
+        protected KnockoutBinding<TModel> EventJs(string evt, string jsfunc)
         {
             var sb = new StringBuilder();
             sb.Append("{ " + evt + ": " + jsfunc + "}");
@@ -322,9 +314,9 @@ namespace PerpetuumSoft.Knockout
             return this;
         }
 
-        public KnockoutBinding<TModel> Change(string JS)
+        public KnockoutBinding<TModel> EventJs(JsEvent evt, string jsfunc)
         {
-            return JSOtherEvent("change", JS);
+            return EventJs(evt.ToString().ToLower(), jsfunc);
         }
 
         public KnockoutBinding<TModel> Submit(string JS)
@@ -332,7 +324,6 @@ namespace PerpetuumSoft.Knockout
             return JSEvent("submit", JS);
         }
 
-        // *** Custom ***    
         public KnockoutBinding<TModel> Custom(string name, string value, bool needQuotes = true)
         {
             Items.Add(new KnockoutBindingStringItem(name, value, needQuotes));

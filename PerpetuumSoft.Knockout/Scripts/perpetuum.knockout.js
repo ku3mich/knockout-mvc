@@ -15,7 +15,7 @@
         	}
         },
         error: function (error) {
-            alert("There was an error posting the data to the server: " + error.responseText);
+            //alert("There was an error posting the data to the server: " + error.responseText);
         }
     });
 
